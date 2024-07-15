@@ -10,8 +10,8 @@ interface Props {
 
 const Button = ({ onPress, bgc, label, py, px, isNavigation }: Props) => {
     return (
-        <button onClick={onPress} className={`${isNavigation ? `${bgc}` : ' '} ${py} ${px} flex justify-center items-center`}>
-            <span className={`${isNavigation ? 'px-[16px] text-white' : ' '}`}>
+        <button onClick={onPress} className={`${isNavigation ? `${bgc} h-[48px]` : ' '} ${py} ${px} flex justify-center items-center`}>
+            <span className={`${isNavigation ? 'px-[16px] text-white' : ' '} font-medium font-custom`}>
                 {label}
             </span>
         </button>

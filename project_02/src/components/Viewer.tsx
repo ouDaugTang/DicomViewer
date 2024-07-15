@@ -29,6 +29,16 @@ const Viewer = () => {
 
   // 현재 포커스된 요소를 추적하기 위한 상태
   const [focusedElement, setFocusedElement] = useState<HTMLDivElement | null>(null);
+  const [focusIndex, setFocusIndex] = useState(-1)
+  const [colormapIndex, setColorMapIndex] = useState(0)
+
+  const colormaps = [
+    'hotIron',
+    'pet',
+    'hotMetalBlue',
+    // 'pet20',
+    'gray'
+  ];
 
   useEffect(() => {
     // cornerstoneWADOImageLoader.external.cornerstone 에 cornerstone 의존성 주입 
@@ -37,7 +47,9 @@ const Viewer = () => {
     cornerstoneTools.external.cornerstone = cornerstone;
     cornerstoneTools.external.Hammer = Hammer;
 
-    cornerstoneTools.init();
+    // cornerstoneTools.init(); // ⭐
+
+    
 
     const elements = [element1Ref.current, element2Ref.current];
 
@@ -76,6 +88,7 @@ const Viewer = () => {
 
         // 클릭하면 포커스
         element.addEventListener('click', () => {
+          setFocusIndex(index)
           setFocusedElement(element);
         });
       }
@@ -89,7 +102,10 @@ const Viewer = () => {
       return;
     }
 
-    viewport.colormap = 'hotIron'; // 예시로 'hotIron' 컬러 맵 적용
+    const newIndex = (colormapIndex + 1) % 4
+    setColorMapIndex(newIndex)
+    viewport.colormap = colormaps[colormapIndex]; // 예시로 'hotIron' 컬러 맵 적용
+    // viewport.colormap = 'hotIron'; // 예시로 'hotIron' 컬러 맵 적용
     cornerstone.setViewport(element, viewport);
     cornerstone.updateImage(element);
   };
@@ -98,8 +114,8 @@ const Viewer = () => {
     <div className='w-[1440px] h-[1024px] flex flex-col'>
       <Header focusedElement={focusedElement} applyColorMap={applyColorMap} />
       <div className='flex-grow flex w-full h-full gap-2'>
-        <div ref={element1Ref} className='flex-1 h-full border border-gray-400'></div>
-        <div ref={element2Ref} className='flex-1 h-full border border-gray-400'></div>
+        <div ref={element1Ref} className={`flex-1 h-full cursor-pointer border-8 ${ focusIndex == 0 ? 'border-main' : 'border-[transparent]' }`}></div>
+        <div ref={element2Ref} className={`flex-1 h-full cursor-pointer border-8 ${ focusIndex == 1 ? 'border-main' : 'border-[transparent]' }`}></div>
       </div>
     </div>
   );

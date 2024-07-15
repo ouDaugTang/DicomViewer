@@ -41,6 +41,9 @@ const Header: React.FC<HeaderProps> = ({ focusedElement, applyColorMap }) => {
         break;
       case 'Reset':
         cornerstone.reset(focusedElement);
+        viewport.colormap = 'gray'; 
+        cornerstone.setViewport(focusedElement, viewport);
+        cornerstone.updateImage(focusedElement);
         break;
       case 'PreviousImage':
         changeImage(focusedElement, -1);
@@ -79,7 +82,7 @@ const Header: React.FC<HeaderProps> = ({ focusedElement, applyColorMap }) => {
 
   return (
     <div className="flex justify-between items-center w-full h-[116px] py-[16px] pr-[40px] pl-[30px] gap-[48px] text-[16px]">
-      <div className="text-[#697077]">
+      <div className="text-[#697077] font-bold font-custom">
         Dicom Viewer(with Cornerstone.js)
       </div>
 
